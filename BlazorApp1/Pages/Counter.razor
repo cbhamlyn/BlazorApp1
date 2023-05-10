@@ -1,0 +1,32 @@
+﻿@* If called "counter" via NavLink's href (see Shared\NavMenu.razor) this is appended to the URL *@
+@page "/counter"
+
+@* The below is just HTML *@
+<PageTitle>Counter</PageTitle>
+<h1>Counter</h1>
+<p role="status">Current count: @currentCount</p>
+
+@* The @onclick property calls the "IncrementCount" function below *@
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@* C# code begins with the @code flag *@
+@code {
+    // This is the variable that holds the count
+    private int currentCount = 0;
+
+    // Createing a parameter we can pass in if we want
+    // This allows us to choose how much to increment with each click (when we call this entire component (see index.razor))
+    // NOTE: Must be public for other pages to modify it!
+    // The "get set" part allows other pages to retrieve the value and to set it.
+    // We also give it a default value of 1 which allows us to call it without setting the parameter for an "increment by 1" counter.
+    [Parameter]
+    public int IncrementAmount { get; set; } = 1;
+
+    // This is the IncrementCount function. 
+    // This gets called whenever someone clicks the "Click me" button.
+    private void IncrementCount()
+    {
+        // Increment "currentCount" by the "IncrementAmount" parameter (or the default 1 if no parameter is passed)
+        currentCount += IncrementAmount;
+    }
+}

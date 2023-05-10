@@ -1,0 +1,42 @@
+﻿@page "/todo"
+
+<h3>Todo (@todos.Count(todo => !todo.IsDone))</h3>
+
+<ul>
+	@* loop through each item in the "todos" list (see @code section) and make a new <li> *@
+	@foreach (var todo in todos)
+	{
+		<li>
+			<input type="checkbox" @bind="todo.IsDone" />
+			<input @bind="todo.Title" />
+		</li>
+	}
+</ul>
+
+@* This text box is for the user to enter the name of a new Todo item*@
+<input placeholder="Something todo" @bind="newTodo" />
+
+@* This button will kick off the "AddTodo" function in the @code block *@
+<button @onclick="AddTodo">Add todo</button>
+
+
+@code {
+	// make a list of all TodoItems (see TodoItem.cs).
+	private List<TodoItem> todos = new();
+	// make a placeholder string for the title of a new Todo item.
+	private string? newTodo;
+
+	// This adds a new Todo item to the list
+	private void AddTodo()
+	{
+		// Ensure the title is not blank
+		if (!string.IsNullOrWhiteSpace(newTodo))
+		{
+			// Add the new Todo item to the todos list.
+			todos.Add(new TodoItem { Title = newTodo });
+			// blank out the newly added title.
+			// Because it is bound with the "@bind" directive, it will blank the HTML input as well as the variable.
+			newTodo = string.Empty;
+		}
+	}
+}
